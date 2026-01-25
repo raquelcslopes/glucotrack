@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "27527280535",
+    "project_id": "glucotrack-88515",
+    "storage_bucket": "glucotrack-88515.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27527280535:android:e111b177f50919fe44f6d2",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27527280535-bu6168jn28ei1uohdui8jtrd4eebf90r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_app",
+            "certificate_hash": "27c729b862e37bc50ca566a99abd954410d2887f"
+          }
+        },
+        {
+          "client_id": "27527280535-vg1mqika7oko7cvri6kj87icv6keiqdf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_app",
+            "certificate_hash": "35a3dc23472c67a435defdc3bc45f9c9a0f04547"
+          }
+        },
+        {
+          "client_id": "27527280535-1u4o2fj4fed3m4b743r3o3f9fs57g3j5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcwFWPtHftASH-5ArCzAHO3Y3xxLFAdS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27527280535-1u4o2fj4fed3m4b743r3o3f9fs57g3j5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "27527280535-5ncg40u1eshp5lpee2q06kbao0ek7a9g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27527280535:android:6cde1e9cb68682f544f6d2",
+        "android_client_info": {
+          "package_name": "gluco.track"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27527280535-ltcmensu6c6vp9btvogmsbj3tolqpfm4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gluco.track",
+            "certificate_hash": "27c729b862e37bc50ca566a99abd954410d2887f"
+          }
+        },
+        {
+          "client_id": "27527280535-1u4o2fj4fed3m4b743r3o3f9fs57g3j5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcwFWPtHftASH-5ArCzAHO3Y3xxLFAdS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27527280535-1u4o2fj4fed3m4b743r3o3f9fs57g3j5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "27527280535-5ncg40u1eshp5lpee2q06kbao0ek7a9g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
