@@ -1,8 +1,9 @@
 import 'package:flutter_app/features/user/domain/entities/insulin_schedule.dart';
 
 class User {
-  final String firstName;
-  final String lastName;
+  final String id;
+  final String name;
+  final String? profilePic;
   final int height;
   final double weight;
   final double imc;
@@ -10,12 +11,47 @@ class User {
   final List<InsulinSchedule>? insulinScheme;
 
   User({
-    required this.firstName,
-    required this.lastName,
+    required this.id,
+    required this.name,
+    this.profilePic,
     required this.height,
     required this.weight,
     required this.imc,
     required this.takesInsulin,
     this.insulinScheme,
   });
+
+  User copyWith({
+    String? userId,
+    String? name,
+    String? profilePic,
+    int? height,
+    double? weight,
+    bool? takesInsulin,
+    double? imc,
+  }) {
+    return User(
+      id: userId ?? this.id,
+      name: name ?? this.name,
+      profilePic: profilePic ?? this.profilePic,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      takesInsulin: takesInsulin ?? this.takesInsulin,
+      imc: imc ?? this.imc,
+    );
+  }
+
+  List<Object?> get props => [
+    id,
+    name,
+    profilePic,
+    height,
+    weight,
+    takesInsulin,
+  ];
+
+  @override
+  String toString() {
+    return 'User(id: $id, name: $name, height: ${height}cm, weight: ${weight}kg, imc: ${imc.toStringAsFixed(1)}, takesInsulin: $takesInsulin)';
+  }
 }

@@ -13,8 +13,13 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<UserCredential> signInWithGoogle() {
-    return remoteDataSource.signInWithGoogle();
+  Future<UserCredential> signInWithGoogle() async {
+    final userCredential = await remoteDataSource.signInWithGoogle();
+    final user = userCredential.user;
+    if (user != null) {
+      await localDataSource.cacheUserId(user.uid);
+    }
+    return userCredential;
   }
 
   @override
@@ -25,5 +30,10 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> signOut() async {
     await localDataSource.clear();
+  }
+
+  @override
+  Future<String?> getCachedUserId() async {
+    return localDataSource.getCachedUserId();
   }
 }

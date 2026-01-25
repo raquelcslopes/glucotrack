@@ -4,4 +4,5 @@ abstract class AuthRepository {
   Future<UserCredential> signInWithGoogle();
   Future<void> signOut();
   Future<bool> isLoggedIn();
+  Future<String?> getCachedUserId();
 }

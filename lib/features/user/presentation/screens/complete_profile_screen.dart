@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/router/routes.dart';
 import 'package:flutter_app/core/theme/app_theme.dart';
+import 'package:flutter_app/features/auth/presentation/providers/auth_notifier.dart';
+import 'package:flutter_app/features/user/domain/entities/user.dart';
+import 'package:flutter_app/features/user/presentation/provider/user_state_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fb;
 
-class CompleteProfileScreen extends StatefulWidget {
+class CompleteProfileScreen extends ConsumerStatefulWidget {
   final String? userName;
   final String? profilePic;
 
@@ -15,8 +21,9 @@ class CompleteProfileScreen extends StatefulWidget {
   _CompleteProfileScreenState createState() => _CompleteProfileScreenState();
 }
 
-class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
+class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
   int currentStep = 1;
+  double? imcValue;
   bool? takesInsulin;
   bool termsAccepted = false;
   bool privacyAccepted = false;
@@ -429,52 +436,35 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   }
 
   Widget _buildTermsAndConditions() {
-    return Column(
-      children: [
-        Card(
-          child: Column(
-            children: [
-              Text(
-                'Terms & Conditions',
-                style: Theme.of(
-                  context,
-                ).textTheme.headlineSmall?.copyWith(color: AppTheme.black),
-              ),
-              Text(
-                'Please review and accept to continue',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: AppTheme.textColor),
-              ),
-              SizedBox(height: 20),
-              _buildTermsCard(),
-              SizedBox(height: 16),
-              _buildCheckboxItem(
-                title: 'I accept the Terms & Conditions',
-                subtitle: 'I have read and agree to the terms of service',
-                isChecked: termsAccepted,
-                onTap: () {
-                  setState(() {
-                    termsAccepted = !termsAccepted;
-                  });
-                },
-              ),
-              SizedBox(height: 12),
-              _buildCheckboxItem(
-                title: 'I accept the Privacy Policy',
-                subtitle: 'I understand how my data will be collected and used',
-                isChecked: privacyAccepted,
-                onTap: () {
-                  setState(() {
-                    privacyAccepted = !privacyAccepted;
-                  });
-                },
-              ),
-              SizedBox(height: 20),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          _buildTermsCard(),
+          SizedBox(height: 16),
+          _buildCheckboxItem(
+            title: 'I accept the Terms & Conditions',
+            subtitle: 'I have read and agree to the terms of service',
+            isChecked: termsAccepted,
+            onTap: () {
+              setState(() {
+                termsAccepted = !termsAccepted;
+              });
+            },
           ),
-        ),
-      ],
+          SizedBox(height: 12),
+          _buildCheckboxItem(
+            title: 'I accept the Privacy Policy',
+            subtitle: 'I understand how my data will be collected and used',
+            isChecked: privacyAccepted,
+            onTap: () {
+              setState(() {
+                privacyAccepted = !privacyAccepted;
+              });
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -482,7 +472,6 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      margin: EdgeInsets.symmetric(horizontal: 20),
       child: Container(
         constraints: BoxConstraints(maxHeight: 300),
         child: SingleChildScrollView(
@@ -646,8 +635,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     required bool isChecked,
     required VoidCallback onTap,
   }) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -663,16 +653,6 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
               color: isChecked ? AppTheme.primaryDark : Colors.grey.shade300,
               width: isChecked ? 2 : 1,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: isChecked
-                    ? AppTheme.primaryDark.withOpacity(0.2)
-                    : Colors.grey.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 5,
-                offset: Offset(0, 2),
-              ),
-            ],
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -742,6 +722,8 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     final heightM = heightCm / 100;
     final imc = weightKg / (heightM * heightM);
 
+    imcValue = imc;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(12),
@@ -770,14 +752,15 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   }
 
   bool _canContinue() {
-    if (currentStep == 1 &&
-        (_weightController.text.isNotEmpty &&
-            _heightController.text.isNotEmpty)) {
-      return true;
+    if (currentStep == 1) {
+      return _weightController.text.isNotEmpty &&
+          _heightController.text.isNotEmpty;
     }
-
-    if (currentStep == 2 && takesInsulin != null) {
-      return true;
+    if (currentStep == 2) {
+      return takesInsulin != null;
+    }
+    if (currentStep == 3) {
+      return termsAccepted && privacyAccepted;
     }
     return false;
   }
@@ -789,18 +772,80 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
           currentStep = 2;
         });
       }
-    }
-
-    if (currentStep == 2) {
+    } else if (currentStep == 2) {
       if (_canContinue()) {
         setState(() {
           currentStep = 3;
         });
       }
+    } else if (currentStep == 3) {
+      if (_canContinue()) {
+        _finish();
+      }
     }
   }
 
-  void _finish() {}
+  void _finish() async {
+    final userNotifier = ref.read(userNotifierProvider.notifier);
+    final authState = ref.read(authNotifierProvider);
+
+    if (authState is! AuthAuthenticated) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('User not authenticated. Please log in again.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    final userId = authState.user.id;
+
+    final height = int.tryParse(_heightController.text) ?? 0;
+    final weight = double.tryParse(_weightController.text) ?? 0;
+
+    final user = User(
+      id: userId,
+      name: widget.userName ?? '',
+      height: height,
+      weight: weight,
+      imc: imcValue ?? 0,
+      takesInsulin: takesInsulin ?? false,
+    );
+
+    final isFormValid =
+        height > 0 &&
+        weight > 0 &&
+        takesInsulin != null &&
+        termsAccepted &&
+        privacyAccepted;
+
+    if (!termsAccepted || !privacyAccepted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Please accept the Terms & Conditions and Privacy Policy.',
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    if (isFormValid) {
+      try {
+        await userNotifier.createUser(user);
+        Navigator.of(context).pushNamed(AppRoutes.home);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error saving profile: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -904,6 +949,8 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                 ),
               ),
             ),
+
+            //BUTTONS
             Container(
               padding: EdgeInsets.all(20),
               child: Row(
@@ -935,7 +982,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   ],
 
                   ElevatedButton(
-                    onPressed: _handleContinue,
+                    onPressed: _canContinue() ? _handleContinue : null,
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(
                         horizontal: 15,
