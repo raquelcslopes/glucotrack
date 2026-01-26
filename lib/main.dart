@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/core/router/routes.dart';
 import 'package:flutter_app/core/theme/app_theme.dart';
-import 'package:flutter_app/features/auth/presentation/providers/auth_provider.dart';
+import 'package:flutter_app/features/user/presentation/provider/user_provider.dart';
+import 'package:flutter_app/features/user/presentation/provider/user_state_provider.dart';
 import 'package:flutter_app/firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   final prefs = await SharedPreferences.getInstance();
 
   await dotenv.load(fileName: ".env");
@@ -21,13 +23,26 @@ void main() async {
   runApp(
     ProviderScope(
       overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
-      child: GlucoTrack(),
+      child: const GlucoTrack(),
     ),
   );
 }
 
-class GlucoTrack extends StatelessWidget {
+class GlucoTrack extends ConsumerStatefulWidget {
   const GlucoTrack({super.key});
+
+  @override
+  ConsumerState<GlucoTrack> createState() => _GlucoTrackState();
+}
+
+class _GlucoTrackState extends ConsumerState<GlucoTrack> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      ref.read(userNotifierProvider.notifier).loadCachedUser();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +52,7 @@ class GlucoTrack extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
       initialRoute: AppRoutes.login,
-      onGenerateRoute: AppRoutes.generateRoute,
+      onGenerateRoute: (settings) => AppRoutes.generateRoute(settings, ref),
     );
   }
 }

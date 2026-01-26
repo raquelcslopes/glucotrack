@@ -15,6 +15,18 @@ class UserNotifier extends StateNotifier<UserState> {
        _getUserUseCase = getUserUseCase,
        super(const UserState.initial());
 
+  Future<void> loadCachedUser() async {
+    try {
+      final user = await _getUserUseCase.getUSer.call('');
+
+      if (user != null) {
+        state = state.copyWith(user: user);
+      }
+    } catch (e) {
+      print('No user cache: $e');
+    }
+  }
+
   Future<void> createUser(User user) async {
     state = state.copyWith(isLoading: true).clearError();
 
@@ -28,6 +40,7 @@ class UserNotifier extends StateNotifier<UserState> {
           weight: user.weight,
           imc: user.imc,
           takesInsulin: user.takesInsulin,
+          isCompelete: true,
         ),
       );
 

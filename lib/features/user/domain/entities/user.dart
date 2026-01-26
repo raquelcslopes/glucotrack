@@ -9,6 +9,7 @@ class User {
   final double imc;
   final bool takesInsulin;
   final List<InsulinSchedule>? insulinScheme;
+  final bool isCompelete;
 
   User({
     required this.id,
@@ -19,6 +20,7 @@ class User {
     required this.imc,
     required this.takesInsulin,
     this.insulinScheme,
+    required this.isCompelete,
   });
 
   User copyWith({
@@ -29,6 +31,7 @@ class User {
     double? weight,
     bool? takesInsulin,
     double? imc,
+    bool? isCompelete,
   }) {
     return User(
       id: userId ?? this.id,
@@ -38,6 +41,7 @@ class User {
       weight: weight ?? this.weight,
       takesInsulin: takesInsulin ?? this.takesInsulin,
       imc: imc ?? this.imc,
+      isCompelete: isCompelete ?? this.isCompelete,
     );
   }
 

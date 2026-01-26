@@ -811,6 +811,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
       weight: weight,
       imc: imcValue ?? 0,
       takesInsulin: takesInsulin ?? false,
+      isCompelete: true,
     );
 
     final isFormValid =

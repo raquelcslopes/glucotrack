@@ -13,6 +13,7 @@ class UserDto {
   final double imc;
   final bool takesInsulin;
   final List<InsulinSchedule>? insulinScheme;
+  final bool isComplete;
 
   UserDto({
     required this.userId,
@@ -23,6 +24,7 @@ class UserDto {
     required this.imc,
     required this.takesInsulin,
     this.insulinScheme,
+    required this.isComplete,
   });
 
   factory UserDto.fromFirestore(DocumentSnapshot doc) {
@@ -36,6 +38,7 @@ class UserDto {
       weight: (data['weight'] as num).toDouble(),
       imc: (data['imc'] as num).toDouble(),
       takesInsulin: data['takes_insulin'] as bool,
+      isComplete: data['is_complete'] as bool,
     );
   }
 
@@ -48,6 +51,7 @@ class UserDto {
       weight: (map['weight'] as num).toDouble(),
       imc: (map['imc'] as num).toDouble(),
       takesInsulin: map['takes_insulin'] as bool,
+      isComplete: map['is_complete'] as bool,
     );
   }
 
@@ -65,6 +69,7 @@ class UserDto {
       imc: entity.imc,
       takesInsulin: entity.takesInsulin,
       insulinScheme: entity.insulinScheme,
+      isComplete: entity.isCompelete,
     );
   }
 
@@ -77,6 +82,7 @@ class UserDto {
       'weight': weight,
       'imc': imc,
       'takes_insulin': takesInsulin,
+      'is_complete': isComplete,
     };
   }
 
@@ -91,6 +97,7 @@ class UserDto {
     double? imc,
     bool? takesInsulin,
     List<InsulinSchedule>? insulinScheme,
+    bool? isComplete,
   }) {
     return UserDto(
       userId: userId ?? this.userId,
@@ -101,6 +108,7 @@ class UserDto {
       imc: imc ?? this.imc,
       takesInsulin: takesInsulin ?? this.takesInsulin,
       insulinScheme: insulinScheme ?? this.insulinScheme,
+      isComplete: isComplete ?? this.isComplete,
     );
   }
 
