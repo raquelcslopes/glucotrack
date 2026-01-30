@@ -35,7 +35,6 @@ class UserRepositoryImpl implements UserRepositoryInterface {
         await remoteDatasource.createUser(userDto);
       } catch (e) {
         print('Error: Not possible to save in Firestore: $e');
-        // Mesmo assim, o user está salvo localmente
       }
     } on FirebaseException catch (e) {
       throw Exception('Firebase Error: ${e.message}');

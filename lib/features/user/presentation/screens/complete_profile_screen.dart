@@ -5,7 +5,6 @@ import 'package:flutter_app/features/auth/presentation/providers/auth_notifier.d
 import 'package:flutter_app/features/user/domain/entities/user.dart';
 import 'package:flutter_app/features/user/presentation/provider/user_state_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart' as fb;
 
 class CompleteProfileScreen extends ConsumerStatefulWidget {
   final String? userName;
@@ -800,26 +799,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
     }
 
     final userId = authState.user.id;
-
-    final height = int.tryParse(_heightController.text) ?? 0;
-    final weight = double.tryParse(_weightController.text) ?? 0;
-
-    final user = User(
-      id: userId,
-      name: widget.userName ?? '',
-      height: height,
-      weight: weight,
-      imc: imcValue ?? 0,
-      takesInsulin: takesInsulin ?? false,
-      isCompelete: true,
-    );
-
-    final isFormValid =
-        height > 0 &&
-        weight > 0 &&
-        takesInsulin != null &&
-        termsAccepted &&
-        privacyAccepted;
+    print('✅ User ID: $userId');
 
     if (!termsAccepted || !privacyAccepted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -833,18 +813,48 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
       return;
     }
 
-    if (isFormValid) {
-      try {
-        await userNotifier.createUser(user);
-        Navigator.of(context).pushNamed(AppRoutes.home);
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error saving profile: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+    final height = int.tryParse(_heightController.text) ?? 0;
+    final weight = double.tryParse(_weightController.text) ?? 0;
+
+    final isFormValid = height > 0 && weight > 0 && takesInsulin != null;
+
+    if (!isFormValid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please fill all fields correctly.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    final user = User(
+      id: userId,
+      name: widget.userName ?? '',
+      height: height,
+      weight: weight,
+      imc: imcValue ?? 0,
+      takesInsulin: takesInsulin ?? false,
+      isCompelete: true,
+      profilePic: widget.profilePic,
+    );
+
+    try {
+      await userNotifier.createUser(user);
+
+      ref.read(authNotifierProvider.notifier).state = AuthAuthenticated(user);
+
+      if (!mounted) return;
+      Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+    } catch (e) {
+      print('🚨 Error creating user: $e');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error saving profile: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 

@@ -75,11 +75,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = AuthError(e.toString());
     }
   }
-
-  Future<void> logout() async {
-    state = AuthInitial();
-    await repository.signOut();
-  }
 }
 
 // -------------------- Provider --------------------
