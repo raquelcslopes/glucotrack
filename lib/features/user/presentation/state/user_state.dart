@@ -22,7 +22,6 @@ class UserState {
     );
   }
 
-  /// Limpar erro
   UserState clearError() {
     return UserState(user: user, isLoading: isLoading, errorMessage: null);
   }

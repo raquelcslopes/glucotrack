@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/core/theme/app_theme.dart';
 
 class MeasurementCard extends StatelessWidget {
   final String? selectedType;
@@ -15,48 +14,51 @@ class MeasurementCard extends StatelessWidget {
     {'id': 'random', 'label': 'Random', 'icon': Icons.shuffle},
   ];
 
-  Widget _buildFilterChips() {
+  Widget _buildFilterChips(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final brightness = Theme.of(context).brightness;
+
     return Wrap(
-      spacing: 11.0,
+      alignment: WrapAlignment.center,
+      spacing: 19.0,
       runSpacing: 11.0,
       children: measurementTypes.map((type) {
+        final isSelected = selectedType == type['id'];
+
         return FilterChip(
           label: Text(
             type['label'],
-            style: TextStyle(
-              fontSize: 12,
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: selectedType == type['id']
-                  ? AppTheme.primaryDark
-                  : AppTheme.primaryMedium,
+              color: isSelected ? Colors.white : colorScheme.secondary,
             ),
           ),
           avatar: Icon(
             type['icon'],
             size: 20,
-            color: selectedType == type['id']
-                ? AppTheme.primaryDark
-                : AppTheme.primaryMedium,
+            color: isSelected ? Colors.white : colorScheme.secondary,
           ),
-          selected: selectedType == type['id'],
+          selected: isSelected,
           onSelected: (selected) {
             if (selected) {
               onTypeSelected(type['id']);
             }
           },
-          backgroundColor: Colors.white,
-          selectedColor: const Color.fromARGB(29, 29, 120, 116),
+          backgroundColor: brightness == Brightness.light
+              ? Colors.white
+              : colorScheme.surface,
+          selectedColor: colorScheme.primary,
           showCheckmark: false,
           side: BorderSide(
-            color: selectedType == type['id']
-                ? AppTheme.primaryDark
-                : AppTheme.primaryLight,
+            color: isSelected
+                ? colorScheme.primary
+                : colorScheme.outlineVariant,
             width: 2,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           pressElevation: 0,
         );
       }).toList(),
@@ -65,22 +67,26 @@ class MeasurementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              'Measurement Type',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppTheme.black,
+            Align(
+              alignment: AlignmentGeometry.centerLeft,
+              child: Text(
+                'Measurement Type',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onSurface,
+                ),
               ),
             ),
-            SizedBox(height: 11),
-
-            _buildFilterChips(),
+            const SizedBox(height: 11),
+            _buildFilterChips(context),
           ],
         ),
       ),

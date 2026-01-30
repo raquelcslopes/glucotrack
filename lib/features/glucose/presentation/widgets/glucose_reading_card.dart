@@ -100,16 +100,19 @@ class _GlucoseReadingCardState extends State<GlucoseReadingCard> {
           children: [
             Text(
               'Glucose Reading',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppTheme.black,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 11),
             TextFormField(
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
               controller: widget.controller,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
+                hintText: 'Enter your blood sugar',
                 fillColor: const Color.fromARGB(173, 231, 236, 235),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),

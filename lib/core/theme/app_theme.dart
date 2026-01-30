@@ -271,8 +271,8 @@ class AppTheme {
 
     // AppBar
     appBarTheme: AppBarTheme(
-      backgroundColor: Color(0xFF1E1E1E),
-      foregroundColor: primaryLight,
+      backgroundColor: primaryMedium,
+      foregroundColor: black,
       elevation: 0,
       centerTitle: false,
       titleTextStyle: GoogleFonts.rubik(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/router/routes.dart';
 import 'package:flutter_app/core/router/screen_args.dart';
-import 'package:flutter_app/core/theme/app_theme.dart';
 import 'package:flutter_app/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,22 +15,26 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _isLoading = false;
 
-  Widget _buildDivider() {
-    return const Row(
+  Widget _buildDivider(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Row(
       children: [
-        Expanded(child: Divider(thickness: 2, color: AppTheme.primaryLight)),
+        Expanded(
+          child: Divider(thickness: 2, color: colorScheme.outlineVariant),
+        ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             'Secure authentication',
-            style: TextStyle(
-              fontSize: 12,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: AppTheme.primaryMedium,
+              color: colorScheme.secondary,
             ),
           ),
         ),
-        Expanded(child: Divider(thickness: 2, color: AppTheme.primaryLight)),
+        Expanded(
+          child: Divider(thickness: 2, color: colorScheme.outlineVariant),
+        ),
       ],
     );
   }
@@ -61,7 +64,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Login failed: ${e.toString()}'),
-          backgroundColor: Colors.red,
+          backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
     } finally {
@@ -73,6 +76,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final brightness = Theme.of(context).brightness;
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -82,22 +88,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // LOGO
-                const Icon(
+                Icon(
                   Icons.monitor_heart_rounded,
                   size: 50,
-                  color: AppTheme.primaryDark,
+                  color: colorScheme.primary,
                   shadows: [
                     Shadow(
-                      color: Color.fromARGB(146, 29, 120, 116),
+                      color: colorScheme.primary.withOpacity(0.5),
                       blurRadius: 10.0,
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
                 const SizedBox(height: 15),
                 Text(
                   'GlucoTrack',
-                  style: Theme.of(context).textTheme.displayLarge,
+                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                    color: colorScheme.primary,
+                  ),
                 ),
                 Text(
                   'Empower Your Blood Sugar Journey',
@@ -118,13 +126,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text(
+                          Text(
                             'Welcome',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              color: AppTheme.primaryDark,
-                            ),
+                            style: Theme.of(context).textTheme.headlineLarge
+                                ?.copyWith(color: colorScheme.primary),
                           ),
                           const SizedBox(height: 8),
                           Text(
@@ -141,31 +146,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             child: ElevatedButton(
                               onPressed: _isLoading ? null : _logInGoogle,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                disabledBackgroundColor: Colors.grey[200],
+                                backgroundColor: brightness == Brightness.light
+                                    ? Colors.white
+                                    : colorScheme.surface,
+                                disabledBackgroundColor:
+                                    colorScheme.outlineVariant,
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 14,
                                   horizontal: 20,
                                 ),
                                 side: BorderSide(
                                   color: _isLoading
-                                      ? Colors.grey
-                                      : const Color.fromARGB(
-                                          134,
-                                          103,
-                                          146,
-                                          137,
-                                        ),
+                                      ? colorScheme.outline
+                                      : colorScheme.secondary,
                                   width: 2,
                                 ),
                               ),
                               child: _isLoading
-                                  ? const SizedBox(
+                                  ? SizedBox(
                                       height: 20,
                                       width: 20,
                                       child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: AppTheme.primaryDark,
+                                        color: colorScheme.primary,
+                                        backgroundColor: Colors.transparent,
                                       ),
                                     )
                                   : Row(
@@ -189,7 +192,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                               .bodySmall
                                               ?.copyWith(
                                                 fontWeight: FontWeight.bold,
-                                                color: AppTheme.primaryDark,
+                                                color: colorScheme.primary,
                                               ),
                                         ),
                                       ],
@@ -199,7 +202,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           const SizedBox(height: 30),
 
                           // INFO
-                          _buildDivider(),
+                          _buildDivider(context),
                           const SizedBox(height: 25),
                           RichText(
                             textAlign: TextAlign.center,
@@ -212,7 +215,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   style: Theme.of(context).textTheme.bodySmall
                                       ?.copyWith(
                                         fontWeight: FontWeight.bold,
-                                        color: AppTheme.primaryDark,
+                                        color: colorScheme.primary,
                                       ),
                                 ),
                                 const TextSpan(text: ' and '),
@@ -221,7 +224,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   style: Theme.of(context).textTheme.bodySmall
                                       ?.copyWith(
                                         fontWeight: FontWeight.bold,
-                                        color: AppTheme.primaryDark,
+                                        color: colorScheme.primary,
                                       ),
                                 ),
                               ],
@@ -233,7 +236,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                const _SecurityBadge(),
+                _SecurityBadge(),
               ],
             ),
           ),
@@ -248,15 +251,13 @@ class _SecurityBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Icon(
-          Icons.lock_outline_rounded,
-          color: AppTheme.primaryDark,
-          size: 14,
-        ),
+        Icon(Icons.lock_outline_rounded, color: colorScheme.primary, size: 14),
         const SizedBox(width: 6),
         Flexible(
           child: Text(

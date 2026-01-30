@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/core/theme/app_theme.dart';
 
 class Header extends StatelessWidget {
   final String name;
@@ -8,20 +7,27 @@ class Header extends StatelessWidget {
   Widget _buildDrawerIcon(BuildContext context) {
     return InkWell(
       onTap: () => Scaffold.of(context).openDrawer(),
-      child: Icon(Icons.menu, color: Colors.white, size: 24),
+      child: Icon(
+        Icons.menu,
+        color: Theme.of(context).colorScheme.surface,
+        size: 24,
+      ),
     );
   }
 
   Widget _buildAppName(BuildContext context) {
     return Row(
       children: [
-        Icon(Icons.monitor_heart_rounded, color: Colors.white),
+        Icon(
+          Icons.monitor_heart_rounded,
+          color: Theme.of(context).colorScheme.surface,
+        ),
         SizedBox(width: 5),
         Text(
           'GlucoTrack',
-          style: Theme.of(
-            context,
-          ).textTheme.headlineSmall?.copyWith(color: Colors.white),
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+            color: Theme.of(context).colorScheme.surface,
+          ),
         ),
       ],
     );
@@ -37,13 +43,13 @@ class Header extends StatelessWidget {
       width: 40,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppTheme.primaryMedium,
+        color: Theme.of(context).colorScheme.secondary,
       ),
       child: Center(
         child: Text(
           abv,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             fontSize: 16,
           ),
         ),
@@ -56,7 +62,7 @@ class Header extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 80,
-      color: AppTheme.primaryDark,
+      color: Theme.of(context).colorScheme.primary,
       child: Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: Row(

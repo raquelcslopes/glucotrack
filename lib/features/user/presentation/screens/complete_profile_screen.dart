@@ -792,7 +792,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('User not authenticated. Please log in again.'),
-          backgroundColor: Colors.red,
+          backgroundColor: AppTheme.error,
         ),
       );
       return;
@@ -807,7 +807,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
           content: Text(
             'Please accept the Terms & Conditions and Privacy Policy.',
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: AppTheme.error,
         ),
       );
       return;
@@ -822,7 +822,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Please fill all fields correctly.'),
-          backgroundColor: Colors.red,
+          backgroundColor: AppTheme.error,
         ),
       );
       return;
@@ -852,7 +852,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error saving profile: ${e.toString()}'),
-          backgroundColor: Colors.red,
+          backgroundColor: AppTheme.error,
         ),
       );
     }

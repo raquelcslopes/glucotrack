@@ -1,6 +1,6 @@
 import 'package:flutter_app/features/user/domain/usecases/create_user_usecase.dart.dart';
 import 'package:flutter_app/features/user/domain/usecases/get_user_usecase.dart';
-import 'package:flutter_app/features/user/presentation/state/usar_state.dart';
+import 'package:flutter_app/features/user/presentation/state/user_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_app/features/user/domain/entities/user.dart';
 
