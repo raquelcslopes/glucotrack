@@ -7,6 +7,7 @@ import 'package:flutter_app/features/user/domain/entities/user.dart';
 class UserDto {
   final String userId;
   final String name;
+  final String email;
   final String? profilePic;
   final int height;
   final double weight;
@@ -18,6 +19,7 @@ class UserDto {
   UserDto({
     required this.userId,
     required this.name,
+    required this.email,
     this.profilePic,
     required this.height,
     required this.weight,
@@ -33,6 +35,7 @@ class UserDto {
     return UserDto(
       userId: doc.id,
       name: data['name'] as String,
+      email: data['email'] as String,
       profilePic: data['profile_pic'] as String?,
       height: (data['height'] as num).toInt(),
       weight: (data['weight'] as num).toDouble(),
@@ -46,6 +49,7 @@ class UserDto {
     return UserDto(
       userId: map['user_id'] as String,
       name: map['name'] as String,
+      email: map['email'] as String,
       profilePic: map['profile_pic'] as String?,
       height: (map['height'] as num).toInt(),
       weight: (map['weight'] as num).toDouble(),
@@ -63,6 +67,7 @@ class UserDto {
     return UserDto(
       userId: entity.id,
       name: entity.name,
+      email: entity.email,
       profilePic: entity.profilePic,
       height: entity.height,
       weight: entity.weight,
@@ -77,6 +82,7 @@ class UserDto {
     return {
       'user_id': userId,
       'name': name,
+      'email': email,
       'profile_pic': profilePic,
       'height': height,
       'weight': weight,
@@ -91,6 +97,7 @@ class UserDto {
   UserDto copyWith({
     String? userId,
     String? name,
+    String? email,
     String? profilePic,
     int? height,
     double? weight,
@@ -102,6 +109,7 @@ class UserDto {
     return UserDto(
       userId: userId ?? this.userId,
       name: name ?? this.name,
+      email: email ?? this.email,
       profilePic: profilePic ?? this.profilePic,
       height: height ?? this.height,
       weight: weight ?? this.weight,
@@ -114,6 +122,6 @@ class UserDto {
 
   @override
   String toString() {
-    return 'UserDto(userId: $userId, name: $name, height: $height, weight: $weight, imc: ${imc.toStringAsFixed(1)}, takesInsulin: $takesInsulin)';
+    return 'UserDto(userId: $userId, name: $name, email: $email, height: $height, weight: $weight, imc: ${imc.toStringAsFixed(1)}, takesInsulin: $takesInsulin)';
   }
 }

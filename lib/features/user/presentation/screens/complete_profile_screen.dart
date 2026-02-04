@@ -9,11 +9,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CompleteProfileScreen extends ConsumerStatefulWidget {
   final String? userName;
   final String? profilePic;
+  final String? email;
 
   const CompleteProfileScreen({
     super.key,
     required this.userName,
     required this.profilePic,
+    required this.email,
   });
 
   @override
@@ -837,6 +839,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
       takesInsulin: takesInsulin ?? false,
       isCompelete: true,
       profilePic: widget.profilePic,
+      email: widget.email ?? '',
     );
 
     try {

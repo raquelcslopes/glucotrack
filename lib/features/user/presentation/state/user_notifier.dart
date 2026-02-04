@@ -41,6 +41,7 @@ class UserNotifier extends StateNotifier<UserState> {
           imc: user.imc,
           takesInsulin: user.takesInsulin,
           isCompelete: true,
+          email: user.email,
         ),
       );
 

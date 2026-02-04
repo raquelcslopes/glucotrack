@@ -27,6 +27,7 @@ class UserRepositoryImpl implements UserRepositoryInterface {
         takesInsulin: user.takesInsulin,
         insulinScheme: user.insulinScheme,
         isComplete: user.isCompelete,
+        email: user.email,
       );
 
       await localDatasource.saveUser(userDto);
@@ -63,6 +64,7 @@ class UserRepositoryImpl implements UserRepositoryInterface {
           takesInsulin: localUser.takesInsulin,
           insulinScheme: localUser.insulinScheme,
           isCompelete: localUser.isComplete,
+          email: localUser.email,
         );
       }
 
@@ -84,6 +86,7 @@ class UserRepositoryImpl implements UserRepositoryInterface {
         takesInsulin: remoteUser.takesInsulin,
         insulinScheme: remoteUser.insulinScheme,
         isCompelete: remoteUser.isComplete,
+        email: remoteUser.email,
       );
     } on FirebaseException catch (e) {
       throw Exception('Firebase Error: ${e.message}');

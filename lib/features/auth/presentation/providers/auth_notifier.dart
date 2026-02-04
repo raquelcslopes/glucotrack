@@ -32,6 +32,7 @@ User mapFirebaseUserToDomain(fb.User firebaseUser) {
     imc: 0,
     takesInsulin: false,
     isCompelete: false,
+    email: '',
   );
 }
 
@@ -57,6 +58,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
           imc: 0,
           takesInsulin: false,
           isCompelete: false,
+          email: '',
         ),
       );
     }

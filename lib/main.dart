@@ -51,7 +51,7 @@ class _GlucoTrackState extends ConsumerState<GlucoTrack> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      initialRoute: AppRoutes.login,
+      initialRoute: AppRoutes.splash,
       onGenerateRoute: (settings) => AppRoutes.generateRoute(settings, ref),
     );
   }

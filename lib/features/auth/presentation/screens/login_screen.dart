@@ -56,6 +56,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         arguments: ScreenArgs(
           userName: response.user?.displayName,
           profilePic: response.user?.photoURL,
+          email: response.user?.email,
         ),
       );
     } catch (e) {

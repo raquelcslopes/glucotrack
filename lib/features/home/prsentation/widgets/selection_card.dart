@@ -38,7 +38,7 @@ class SelectionCard extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: const Color.fromARGB(169, 0, 0, 0),
-              blurRadius: 4,
+              blurRadius: 2,
               offset: Offset(0, 2),
             ),
           ],

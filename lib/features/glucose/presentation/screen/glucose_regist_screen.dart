@@ -148,6 +148,7 @@ class _GlucoseRegistScreenState extends ConsumerState<GlucoseRegistScreen> {
       _glucoseRead.clear();
       _notes.clear();
       setState(() => _selectedType = null);
+      await ref.refresh(glucoseReadingsProvider.future);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -155,6 +156,7 @@ class _GlucoseRegistScreenState extends ConsumerState<GlucoseRegistScreen> {
           backgroundColor: AppTheme.success,
         ),
       );
+
       Navigator.of(context).pop();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

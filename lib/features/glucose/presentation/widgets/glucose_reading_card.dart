@@ -49,7 +49,7 @@ class _GlucoseReadingCardState extends State<GlucoseReadingCard> {
       );
     }
 
-    if (value >= 70 && value <= 100) {
+    if (value >= 70 && value <= 120) {
       return Container(
         alignment: Alignment.center,
         width: double.infinity,
