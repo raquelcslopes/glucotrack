@@ -209,7 +209,10 @@ class _GlucoseRegistScreenState extends ConsumerState<GlucoseRegistScreen> {
 
               SizedBox(
                 width: double.infinity,
-                child: GlucoseReadingCard(controller: _glucoseRead),
+                child: GlucoseReadingCard(
+                  controller: _glucoseRead,
+                  selectedType: _selectedType ?? 'fasting',
+                ),
               ),
 
               SizedBox(

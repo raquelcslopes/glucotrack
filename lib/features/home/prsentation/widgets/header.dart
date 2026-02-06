@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/theme/app_theme.dart';
 
 class Header extends StatelessWidget {
   final String name;
@@ -43,7 +44,7 @@ class Header extends StatelessWidget {
       width: 40,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Theme.of(context).colorScheme.secondary,
+        border: BoxBorder.all(color: AppTheme.primaryLight, width: 1.5),
       ),
       child: Center(
         child: Text(
@@ -60,20 +61,53 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: 80,
-      color: Theme.of(context).colorScheme.primary,
-      child: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _buildDrawerIcon(context),
-            _buildAppName(context),
-            _buildProfileWidget(context, name),
-          ],
+      height: 70,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF0d7a7a), Color(0xFF16a29d)],
         ),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            top: -50,
+            right: -50,
+            child: Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withAlpha(25),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: -30,
+            left: 30,
+            child: Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withAlpha(10),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildDrawerIcon(context),
+                _buildAppName(context),
+                _buildProfileWidget(context, name),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -3,8 +3,13 @@ import 'package:flutter_app/core/theme/app_theme.dart';
 
 class GlucoseReadingCard extends StatefulWidget {
   final TextEditingController controller;
+  final String selectedType;
 
-  GlucoseReadingCard({super.key, required this.controller});
+  const GlucoseReadingCard({
+    super.key,
+    required this.controller,
+    required this.selectedType,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -13,6 +18,22 @@ class GlucoseReadingCard extends StatefulWidget {
 }
 
 class _GlucoseReadingCardState extends State<GlucoseReadingCard> {
+  final Map<String, ({int min, int max})> glucoseRanges = {
+    'fasting': (min: 70, max: 120),
+    'pre-meal': (min: 70, max: 120),
+    'post-meal': (min: 70, max: 140),
+    'bedtime': (min: 70, max: 140),
+    'random': (min: 70, max: 120),
+  };
+
+  Map<String, int> _getActiveRange() {
+    final range = glucoseRanges[widget.selectedType];
+    if (range == null) {
+      return {'min': 70, 'max': 120};
+    }
+    return {'min': range.min, 'max': range.max};
+  }
+
   @override
   void initState() {
     super.initState();
@@ -25,13 +46,16 @@ class _GlucoseReadingCardState extends State<GlucoseReadingCard> {
   }
 
   Widget _buildResultContainer(BuildContext context) {
+    final activeRange = _getActiveRange();
+    final low = activeRange['min']!;
+    final max = activeRange['max']!;
     final value = int.tryParse(widget.controller.text);
 
     if (value == null) {
       return SizedBox.shrink();
     }
 
-    if (value < 70) {
+    if (value < low) {
       return Container(
         alignment: Alignment.center,
         width: double.infinity,
@@ -49,7 +73,7 @@ class _GlucoseReadingCardState extends State<GlucoseReadingCard> {
       );
     }
 
-    if (value >= 70 && value <= 120) {
+    if (value >= low && value <= max) {
       return Container(
         alignment: Alignment.center,
         width: double.infinity,

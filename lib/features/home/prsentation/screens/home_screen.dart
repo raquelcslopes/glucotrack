@@ -2,16 +2,289 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/core/theme/app_theme.dart';
 import 'package:flutter_app/features/glucose/domain/entities/glucose_reading.dart';
 import 'package:flutter_app/features/glucose/presentation/provider/glucose_provider.dart';
-import 'package:flutter_app/features/home/prsentation/widgets/current_glucose_card.dart';
 import 'package:flutter_app/features/home/prsentation/widgets/drawer.dart';
 import 'package:flutter_app/features/home/prsentation/widgets/gluco_chart.dart';
 import 'package:flutter_app/features/home/prsentation/widgets/header.dart';
 import 'package:flutter_app/features/home/prsentation/widgets/selection_card.dart';
+import 'package:flutter_app/features/home/prsentation/widgets/sos_button.dart';
 import 'package:flutter_app/features/user/presentation/provider/user_state_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _HomeScreenState();
+  }
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  int? _selectedIndex = 0;
+  bool _alertShown = false;
+
+  void _emergencyContact() {
+    if (_alertShown) return;
+    _alertShown = true;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.black54,
+      builder: (context) => Dialog(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.red.withAlpha(40),
+                blurRadius: 20,
+                spreadRadius: 0,
+                offset: Offset(0, 10),
+              ),
+            ],
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.red.shade600, Colors.red.shade400],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withAlpha(40),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          Icons.warning_rounded,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Critical Alert',
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              'Low Glucose Detected',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.red.shade50,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.red.shade200,
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Text(
+                          'Your blood glucose level is critically low and requires immediate attention.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.red.shade700,
+                            height: 1.5,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 24),
+
+                      Text(
+                        'What to do now:',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.black,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      SizedBox(height: 12),
+
+                      ...[
+                        (
+                          'Consume Fast Carbs',
+                          'Glucose tablets, juice, or candy',
+                        ),
+                        ('Recheck in 15 mins', 'Measure your glucose again'),
+                        ('Seek Help', 'Contact medical professional'),
+                      ].map((item) {
+                        int index = [
+                          'Consume Fast Carbs',
+                          'Recheck in 15 mins',
+                          'Seek Help',
+                        ].indexOf(item.$1);
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 12),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 28,
+                                height: 28,
+                                decoration: BoxDecoration(
+                                  color: Colors.red.shade100,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '${index + 1}',
+                                    style: TextStyle(
+                                      color: Colors.red.shade700,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.$1,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: AppTheme.black,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                    Text(
+                                      item.$2,
+                                      style: TextStyle(
+                                        color: Colors.grey.shade600,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+
+                      SizedBox(height: 20),
+
+                      Container(
+                        padding: EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.shade50,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.orange.shade300,
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.emergency_rounded,
+                              color: Colors.orange.shade700,
+                              size: 20,
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                'If symptoms worsen, call emergency services (112)',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.orange.shade900,
+                                  height: 1.4,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: 24),
+
+                      SosButton(),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 12, left: 24, right: 24),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () {
+                        _alertShown = false;
+                        Navigator.pop(context);
+                      },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        backgroundColor: Colors.grey.shade100,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        'I understand',
+                        style: TextStyle(
+                          color: AppTheme.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _buildEmptyState(BuildContext context) {
     return Center(
@@ -82,16 +355,6 @@ class HomeScreen extends ConsumerWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18.0),
-          child: CurrentGlucoseCard(
-            currentReading: readings.first,
-            averageValue: _calculateAverage(readings),
-            isTrendingDown: true,
-          ),
-        ),
-        const SizedBox(height: 24),
-
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,8 +362,7 @@ class HomeScreen extends ConsumerWidget {
               Expanded(
                 child: SelectionCard(
                   icon: Icons.water_drop_outlined,
-                  title: 'Check Glucose',
-                  subtitle: 'Record new reading',
+                  title: 'Regist',
                   onTap: () => Navigator.pushNamed(context, '/glucose-regist'),
                 ),
               ),
@@ -108,19 +370,32 @@ class HomeScreen extends ConsumerWidget {
               Expanded(
                 child: SelectionCard(
                   icon: Icons.document_scanner_outlined,
-                  title: 'Log Symptoms',
-                  subtitle: 'Note how you feel',
+                  title: 'Symptoms',
+                  onTap: () => Navigator.pushNamed(context, '/glucose'),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: SelectionCard(
+                  icon: Icons.view_agenda_outlined,
+                  title: 'Planner',
                   onTap: () => Navigator.pushNamed(context, '/glucose'),
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 24),
-
+        const SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18.0),
-          child: GlucoseWeeklyChart(readings: readings),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('History', style: Theme.of(context).textTheme.headlineSmall),
+              SizedBox(height: 14),
+              GlucoseWeeklyChart(readings: readings),
+            ],
+          ),
         ),
         const SizedBox(height: 28),
       ],
@@ -135,18 +410,29 @@ class HomeScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Hi, $userName 👋',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w600),
+            RichText(
+              text: TextSpan(
+                text: 'Hi, ',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize: 20,
+                ),
+                children: [
+                  TextSpan(
+                    text: userName,
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 4),
             Text(
               'How are you feeling today?',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade600),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ],
         ),
@@ -191,9 +477,7 @@ class HomeScreen extends ConsumerWidget {
         }
         return _buildContentWithReadings(context, data);
       },
-
       loading: () => _buildLoadingState(),
-
       error: (e, st) => _buildErrorState('Error loading readings'),
     );
   }
@@ -209,12 +493,22 @@ class HomeScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final user = ref.watch(userNotifierProvider).user;
     final userName = user!.name;
     final userProfilePic = user.profilePic;
 
     final readings = ref.watch(glucoseReadingsProvider);
+
+    readings.whenData((data) {
+      if (data.isNotEmpty && data.first.value < 40) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _emergencyContact();
+        });
+      } else if (data.isNotEmpty && data.first.value >= 70) {
+        _alertShown = false;
+      }
+    });
 
     return Scaffold(
       drawer: DrawerWidget(useName: userName, profilePic: userProfilePic),
@@ -222,13 +516,15 @@ class HomeScreen extends ConsumerWidget {
         children: [
           Header(name: userName),
           const SizedBox(height: 24),
-
-          _buildGreetingWidget(context, userName),
-          const SizedBox(height: 24),
-
           Expanded(
             child: SingleChildScrollView(
-              child: Center(child: _buildContentSpace(context, readings)),
+              child: Column(
+                children: [
+                  _buildGreetingWidget(context, userName),
+                  const SizedBox(height: 24),
+                  Center(child: _buildContentSpace(context, readings)),
+                ],
+              ),
             ),
           ),
         ],

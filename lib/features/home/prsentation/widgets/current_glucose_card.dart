@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/theme/app_theme.dart';
 import 'package:flutter_app/features/glucose/domain/entities/glucose_reading.dart';
+import 'package:flutter_app/features/home/prsentation/widgets/sos_button.dart';
 
 class CurrentGlucoseCard extends StatelessWidget {
   final GlucoseReading currentReading;
@@ -69,7 +71,7 @@ class CurrentGlucoseCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'vs yesterday',
+                      'vs last reading',
                       style: Theme.of(
                         context,
                       ).textTheme.bodySmall?.copyWith(fontSize: 10),
@@ -118,20 +120,52 @@ class CurrentGlucoseCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        Text(
-                          'Normal',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: Colors.green,
-                                fontWeight: FontWeight.w600,
-                              ),
-                        ),
-                        const SizedBox(width: 4),
-                        const Icon(
-                          Icons.check_circle,
-                          color: Colors.green,
-                          size: 16,
-                        ),
+                        if (averageValue > 70 && averageValue <= 120) ...[
+                          Text(
+                            'Normal',
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Icon(
+                            Icons.check_circle,
+                            color: AppTheme.success,
+                            size: 16,
+                          ),
+                        ] else if (averageValue < 70) ...[
+                          Text(
+                            'Low',
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: AppTheme.error,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Icon(
+                            Icons.warning_rounded,
+                            color: AppTheme.error,
+                            size: 16,
+                          ),
+                        ] else ...[
+                          Text(
+                            'High',
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: AppTheme.error,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Icon(
+                            Icons.warning_rounded,
+                            color: AppTheme.error,
+                            size: 16,
+                          ),
+                        ],
                       ],
                     ),
                   ],

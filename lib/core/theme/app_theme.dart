@@ -6,7 +6,7 @@ class AppTheme {
   static const Color primaryDark = Color(0xFF1D7874);
   static const Color primaryMedium = Color(0xFF679289);
   static const Color primaryLight = Color(0xFFE8F3F1);
-  static const Color backgroundLight = Color(0xFFF8FAF9);
+  static const Color backgroundLight = Color.fromARGB(255, 255, 255, 255);
   static const Color black = Color.fromARGB(255, 31, 31, 31);
   static const Color textColor = Color(0xFF5F5F5F);
 
@@ -24,10 +24,11 @@ class AppTheme {
       primary: primaryDark,
       secondary: primaryMedium,
       surface: Colors.white,
+      onSurface: AppTheme.black,
       error: error,
     ),
     useMaterial3: true,
-    scaffoldBackgroundColor: primaryLight,
+    scaffoldBackgroundColor: backgroundLight,
 
     // AppBar
     appBarTheme: AppBarTheme(
@@ -181,13 +182,13 @@ class AppTheme {
     // Text Theme - TÍTULOS COM RUBIK, CORPO COM OPEN SANS
     textTheme: TextTheme(
       // Displays (Títulos grandes) - RUBIK
-      displayLarge: GoogleFonts.rubik(
+      displayLarge: GoogleFonts.dmSans(
         fontSize: 32,
         fontWeight: FontWeight.bold,
         color: primaryDark,
         letterSpacing: -0.5,
       ),
-      displayMedium: GoogleFonts.rubik(
+      displayMedium: GoogleFonts.dmSans(
         fontSize: 28,
         fontWeight: FontWeight.bold,
         color: primaryDark,
@@ -264,6 +265,7 @@ class AppTheme {
       primary: primaryMedium,
       secondary: primaryLight,
       surface: Color(0xFF1E1E1E),
+      onSurface: Colors.white,
       error: error,
     ),
     useMaterial3: true,
