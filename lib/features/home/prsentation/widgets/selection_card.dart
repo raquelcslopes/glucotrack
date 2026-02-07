@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/core/theme/app_theme.dart';
 
 class SelectionCard extends StatelessWidget {
   final IconData icon;
@@ -12,18 +11,6 @@ class SelectionCard extends StatelessWidget {
     required this.title,
     required this.onTap,
   });
-
-  Widget _buildIcon(BuildContext context) {
-    return Container(
-      height: 50,
-      width: 50,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary.withAlpha(170),
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: Icon(icon, color: Theme.of(context).colorScheme.surface, size: 30),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +49,5 @@ class SelectionCard extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }

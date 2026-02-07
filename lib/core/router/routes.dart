@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/core/router/screen_args.dart';
 import 'package:flutter_app/features/glucose/presentation/screen/glucose_regist_screen.dart';
 import 'package:flutter_app/features/home/prsentation/screens/home_screen.dart';
+import 'package:flutter_app/features/symptoms/presentation/screens/regist_symptoms_screen.dart';
 import 'package:flutter_app/features/user/presentation/provider/user_state_provider.dart';
 import 'package:flutter_app/features/user/presentation/screens/complete_profile_screen.dart';
 import 'package:flutter_app/features/auth/presentation/screens/splash_screen.dart';
@@ -14,6 +15,7 @@ class AppRoutes {
   static const String home = '/home';
   static const String profile = '/profile';
   static const String glucose = '/glucose-regist';
+  static const String symptoms = '/symptoms-regist';
 
   static Route<dynamic>? generateRoute(RouteSettings settings, WidgetRef ref) {
     final userState = ref.read(userNotifierProvider);
@@ -63,6 +65,14 @@ class AppRoutes {
       case glucose:
         if (hasCompleteProfile) {
           return MaterialPageRoute(builder: (_) => const GlucoseRegistScreen());
+        }
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
+
+      case symptoms:
+        if (hasCompleteProfile) {
+          return MaterialPageRoute(
+            builder: (_) => const RegistSymptomsScreen(),
+          );
         }
         return MaterialPageRoute(builder: (_) => const LoginScreen());
 

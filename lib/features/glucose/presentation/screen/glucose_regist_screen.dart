@@ -54,7 +54,18 @@ class _GlucoseRegistScreenState extends ConsumerState<GlucoseRegistScreen> {
     final formattedDay = DateFormat('EEEE, MMMM d, yyyy').format(nowDay);
     final formattedHour = DateFormat('HH:mm').format(nowDay);
 
-    return Card(
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(40),
+            blurRadius: 7,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(
@@ -64,6 +75,7 @@ class _GlucoseRegistScreenState extends ConsumerState<GlucoseRegistScreen> {
                 Icon(
                   Icons.calendar_today_outlined,
                   color: Theme.of(context).colorScheme.primary,
+                  size: 22,
                 ),
                 SizedBox(width: 5),
                 Text(formattedDay),
@@ -87,7 +99,14 @@ class _GlucoseRegistScreenState extends ConsumerState<GlucoseRegistScreen> {
   }
 
   Widget _buildFooter() {
-    return Card(
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary.withAlpha(30),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.primary.withAlpha(50),
+        ),
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(18.0),
         child: RichText(
@@ -181,7 +200,7 @@ class _GlucoseRegistScreenState extends ConsumerState<GlucoseRegistScreen> {
         leading: InkWell(
           onTap: Navigator.of(context).pop,
           child: Icon(
-            Icons.arrow_back_rounded,
+            Icons.arrow_back_ios_new_rounded,
             color: Theme.of(context).colorScheme.surface,
           ),
         ),
@@ -194,6 +213,7 @@ class _GlucoseRegistScreenState extends ConsumerState<GlucoseRegistScreen> {
           child: Column(
             children: [
               SizedBox(width: double.infinity, child: _buildDateCard()),
+              SizedBox(height: 18),
 
               SizedBox(
                 width: double.infinity,
@@ -206,6 +226,7 @@ class _GlucoseRegistScreenState extends ConsumerState<GlucoseRegistScreen> {
                   },
                 ),
               ),
+              SizedBox(height: 18),
 
               SizedBox(
                 width: double.infinity,
@@ -214,11 +235,13 @@ class _GlucoseRegistScreenState extends ConsumerState<GlucoseRegistScreen> {
                   selectedType: _selectedType ?? 'fasting',
                 ),
               ),
+              SizedBox(height: 18),
 
               SizedBox(
                 width: double.infinity,
                 child: NotesCard(controller: _notes),
               ),
+              SizedBox(height: 14),
 
               SizedBox(
                 width: double.infinity,
@@ -228,6 +251,7 @@ class _GlucoseRegistScreenState extends ConsumerState<GlucoseRegistScreen> {
                   icon: Icon(Icons.save_outlined),
                 ),
               ),
+              SizedBox(height: 18),
 
               SizedBox(width: double.infinity, child: _buildFooter()),
             ],

@@ -9,7 +9,18 @@ class NotesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Card(
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(40),
+            blurRadius: 7,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(
@@ -20,7 +31,7 @@ class NotesCard extends StatelessWidget {
                 'Notes (optional)',
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: colorScheme.onSurface,
+                  color: colorScheme.primary,
                 ),
               ),
             ),

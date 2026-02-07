@@ -371,7 +371,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 child: SelectionCard(
                   icon: Icons.document_scanner_outlined,
                   title: 'Symptoms',
-                  onTap: () => Navigator.pushNamed(context, '/glucose'),
+                  onTap: () => Navigator.pushNamed(context, '/symptoms-regist'),
                 ),
               ),
               const SizedBox(width: 12),
@@ -398,6 +398,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
         const SizedBox(height: 28),
+
+        _buildMedicalDisclaimerFooter(),
       ],
     );
   }
@@ -482,7 +484,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  double _calculateAverage(List<GlucoseReading> readings) {
+  /*   double _calculateAverage(List<GlucoseReading> readings) {
     if (readings.isEmpty) return 0;
 
     final sum = readings.fold<double>(
@@ -490,6 +492,57 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       (prev, reading) => prev + reading.value,
     );
     return sum / readings.length;
+  } */
+
+  Widget _buildMedicalDisclaimerFooter() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(18, 0, 18, 40),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary.withAlpha(30),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primary.withAlpha(50),
+          ),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.medical_information_rounded,
+              size: 28,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Medical Disclaimer',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'This app does not replace professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider regarding your health conditions and treatment plan. GlucoTrack is a monitoring tool only and should be used in conjunction with regular medical check-ups.',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Colors.grey[700],
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -515,12 +568,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: Column(
         children: [
           Header(name: userName),
-          const SizedBox(height: 24),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  _buildGreetingWidget(context, userName),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 11.0),
+                    child: _buildGreetingWidget(context, userName),
+                  ),
                   const SizedBox(height: 24),
                   Center(child: _buildContentSpace(context, readings)),
                 ],

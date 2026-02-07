@@ -1,38 +1,62 @@
 class Symptoms {
   final String id;
-  final int value;
-  final DateTime date;
-  final String type;
+  final List<String> hypoglycemiaSymptoms;
+  final List<String> hyperglycemiaSymptoms;
+  final String severity;
   final String? notes;
+  final DateTime timestamp;
 
   Symptoms({
     required this.id,
-    required this.value,
-    required this.date,
-    required this.type,
+    required this.hypoglycemiaSymptoms,
+    required this.hyperglycemiaSymptoms,
+    required this.severity,
     this.notes,
+    required this.timestamp,
   });
 
   Symptoms copyWith({
     String? id,
-    int? value,
-    DateTime? date,
-    String? type,
+    List<String>? hypoglycemiaSymptoms,
+    List<String>? hyperglycemiaSymptoms,
+    String? severity,
     String? notes,
+    DateTime? timestamp,
   }) {
     return Symptoms(
       id: id ?? this.id,
-      value: value ?? this.value,
-      date: date ?? this.date,
-      type: type ?? this.type,
+      hypoglycemiaSymptoms: hypoglycemiaSymptoms ?? this.hypoglycemiaSymptoms,
+      hyperglycemiaSymptoms:
+          hyperglycemiaSymptoms ?? this.hyperglycemiaSymptoms,
+      severity: severity ?? this.severity,
       notes: notes ?? this.notes,
+      timestamp: timestamp ?? this.timestamp,
     );
   }
 
-  List<Object?> get props => [id, value, date, type, notes];
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Symptoms &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          hypoglycemiaSymptoms == other.hypoglycemiaSymptoms &&
+          hyperglycemiaSymptoms == other.hyperglycemiaSymptoms &&
+          severity == other.severity &&
+          notes == other.notes &&
+          timestamp == other.timestamp;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      hypoglycemiaSymptoms.hashCode ^
+      hyperglycemiaSymptoms.hashCode ^
+      severity.hashCode ^
+      notes.hashCode ^
+      timestamp.hashCode;
 
   @override
   String toString() {
-    return 'User(id: $id, value: ${value}mg/dl, date: $date, type: $type, notes: $notes)';
+    return 'Symptoms(id: $id, hypo: ${hypoglycemiaSymptoms.length}, hyper: ${hyperglycemiaSymptoms.length}, severity: $severity, timestamp: $timestamp)';
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/core/theme/app_theme.dart';
 
 class Header extends StatelessWidget {
   final String name;
@@ -44,7 +43,10 @@ class Header extends StatelessWidget {
       width: 40,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: BoxBorder.all(color: AppTheme.primaryLight, width: 1.5),
+        border: BoxBorder.all(
+          color: Theme.of(context).colorScheme.surface,
+          width: 1.5,
+        ),
       ),
       child: Center(
         child: Text(
@@ -61,7 +63,8 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      alignment: Alignment.center,
+      height: 80,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -72,7 +75,7 @@ class Header extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            top: -50,
+            top: -30,
             right: -50,
             child: Container(
               width: 200,

@@ -9,6 +9,7 @@ class AppTheme {
   static const Color backgroundLight = Color.fromARGB(255, 255, 255, 255);
   static const Color black = Color.fromARGB(255, 31, 31, 31);
   static const Color textColor = Color(0xFF5F5F5F);
+  static const Color purple = Color(0xFFF3E8FF);
 
   // Cores complementares
   static const Color success = Color(0xFF10B981);

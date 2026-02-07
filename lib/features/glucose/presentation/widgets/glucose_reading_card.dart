@@ -116,7 +116,18 @@ class _GlucoseReadingCardState extends State<GlucoseReadingCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(40),
+            blurRadius: 7,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(
@@ -126,7 +137,7 @@ class _GlucoseReadingCardState extends State<GlucoseReadingCard> {
               'Glucose Reading',
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onSurface,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             SizedBox(height: 11),

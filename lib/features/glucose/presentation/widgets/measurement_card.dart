@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/theme/app_theme.dart';
 
 class MeasurementCard extends StatelessWidget {
   final String? selectedType;
@@ -30,13 +31,8 @@ class MeasurementCard extends StatelessWidget {
             type['label'],
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: isSelected ? Colors.white : colorScheme.secondary,
+              color: isSelected ? Colors.white : colorScheme.onSurface,
             ),
-          ),
-          avatar: Icon(
-            type['icon'],
-            size: 20,
-            color: isSelected ? Colors.white : colorScheme.secondary,
           ),
           selected: isSelected,
           onSelected: (selected) {
@@ -47,11 +43,11 @@ class MeasurementCard extends StatelessWidget {
           backgroundColor: brightness == Brightness.light
               ? Colors.white
               : colorScheme.surface,
-          selectedColor: colorScheme.primary,
+          selectedColor: AppTheme.primaryMedium,
           showCheckmark: false,
           side: BorderSide(
             color: isSelected
-                ? colorScheme.primary
+                ? AppTheme.primaryMedium
                 : colorScheme.outlineVariant,
             width: 2,
           ),
@@ -69,7 +65,18 @@ class MeasurementCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Card(
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(40),
+            blurRadius: 7,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(
@@ -81,7 +88,7 @@ class MeasurementCard extends StatelessWidget {
                 'Measurement Type',
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: colorScheme.onSurface,
+                  color: colorScheme.primary,
                 ),
               ),
             ),
