@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/core/router/screen_args.dart';
 import 'package:flutter_app/features/glucose/presentation/screen/glucose_regist_screen.dart';
 import 'package:flutter_app/features/home/prsentation/screens/home_screen.dart';
+import 'package:flutter_app/features/planner/presentation/screens/new_appointment_screen.dart';
+import 'package:flutter_app/features/planner/presentation/screens/planner_screen.dart';
 import 'package:flutter_app/features/symptoms/presentation/screens/regist_symptoms_screen.dart';
 import 'package:flutter_app/features/user/presentation/provider/user_state_provider.dart';
 import 'package:flutter_app/features/user/presentation/screens/complete_profile_screen.dart';
@@ -16,6 +18,8 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String glucose = '/glucose-regist';
   static const String symptoms = '/symptoms-regist';
+  static const String planner = '/planner';
+  static const String appointment = '/planner-new-appointment';
 
   static Route<dynamic>? generateRoute(RouteSettings settings, WidgetRef ref) {
     final userState = ref.read(userNotifierProvider);
@@ -72,6 +76,20 @@ class AppRoutes {
         if (hasCompleteProfile) {
           return MaterialPageRoute(
             builder: (_) => const RegistSymptomsScreen(),
+          );
+        }
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
+
+      case planner:
+        if (hasCompleteProfile) {
+          return MaterialPageRoute(builder: (_) => const PlannerScreen());
+        }
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
+
+      case appointment:
+        if (hasCompleteProfile) {
+          return MaterialPageRoute(
+            builder: (_) => const NewAppointmentScreen(),
           );
         }
         return MaterialPageRoute(builder: (_) => const LoginScreen());

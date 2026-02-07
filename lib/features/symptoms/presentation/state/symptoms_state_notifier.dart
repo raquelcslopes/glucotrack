@@ -1,5 +1,5 @@
 import 'package:flutter_app/features/symptoms/domain/entities/symptoms.dart';
-import 'package:flutter_app/features/symptoms/domain/usecases/create_symptom.dart';
+import 'package:flutter_app/features/symptoms/domain/usecases/create_symptom_usecase.dart';
 import 'package:flutter_app/features/symptoms/presentation/state/symptom_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

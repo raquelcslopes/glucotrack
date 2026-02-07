@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/features/symptoms/data/dtos/symptom_dto.dart';
 import 'package:flutter_app/features/symptoms/domain/entities/symptoms.dart';
-import 'package:flutter_app/features/symptoms/domain/usecases/repositories/symptoms_repository_interface.dart';
+import 'package:flutter_app/features/symptoms/domain/repositories/symptoms_repository_interface.dart';
 
 class SymptomsRepositoryImpl implements SymptomsInterface {
   final FirebaseFirestore firestore;

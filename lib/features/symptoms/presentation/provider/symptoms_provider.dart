@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/features/symptoms/data/repositories/symptoms_repository_impl.dart';
-import 'package:flutter_app/features/symptoms/domain/usecases/create_symptom.dart';
-import 'package:flutter_app/features/symptoms/domain/usecases/repositories/symptoms_repository_interface.dart';
+import 'package:flutter_app/features/symptoms/domain/usecases/create_symptom_usecase.dart';
+import 'package:flutter_app/features/symptoms/domain/repositories/symptoms_repository_interface.dart';
 import 'package:flutter_app/features/symptoms/presentation/state/symptom_state.dart';
 import 'package:flutter_app/features/symptoms/presentation/state/symptoms_state_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

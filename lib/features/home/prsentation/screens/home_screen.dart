@@ -379,7 +379,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 child: SelectionCard(
                   icon: Icons.view_agenda_outlined,
                   title: 'Planner',
-                  onTap: () => Navigator.pushNamed(context, '/glucose'),
+                  onTap: () => Navigator.pushNamed(context, '/planner'),
                 ),
               ),
             ],
